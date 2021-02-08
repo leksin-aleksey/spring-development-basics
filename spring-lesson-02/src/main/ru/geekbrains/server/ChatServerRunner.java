@@ -9,7 +9,7 @@ public class ChatServerRunner {
 
     public static void main(String[] args) {
         //ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
-        ApplicationContext context = new AnnotationConfigApplicationContext(ObjectInputFilter.Config.class);
+        ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
 
         ChatServer chatServer = context.getBean("chatServer", ChatServer.class);
         chatServer.start(8787);
