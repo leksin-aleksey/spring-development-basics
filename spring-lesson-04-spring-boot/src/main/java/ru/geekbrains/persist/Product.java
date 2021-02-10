@@ -1,6 +1,7 @@
 package ru.geekbrains.persist;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class Product {
 
@@ -12,9 +13,11 @@ public class Product {
     @NotEmpty
     private String description;
 
-    private int price;
+    @NotNull(message = "product price cannot be null")
+    private Integer price;
 
     public Product() {
+        price = 0;
     }
 
     public Product(@NotEmpty String name) {
