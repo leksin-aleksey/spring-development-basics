@@ -1,6 +1,8 @@
 package ru.geekbrains;
 
 import org.hibernate.cfg.Configuration;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import ru.geekbrains.persist.*;
 import ru.geekbrains.persist.customer.CustomerRepository;
 import ru.geekbrains.persist.item.ItemRepository;
@@ -12,9 +14,9 @@ import javax.persistence.EntityManagerFactory;
 public class Main {
 
     public static void main(String[] args) {
-        EntityManagerFactory emFactory = new Configuration()
-                .configure("hibernate.cfg.xml")
-                .buildSessionFactory();
+//        EntityManagerFactory emFactory = new Configuration()
+//                .configure("hibernate.cfg.xml")
+//                .buildSessionFactory();
 
 //        EntityManager em = emFactory.createEntityManager();
 
@@ -58,7 +60,9 @@ public class Main {
 //        em.getTransaction().commit();
 //        em.close();
 
-        CustomerRepository customerRepository = new CustomerRepository(emFactory);
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+
+        CustomerRepository customerRepository = context.getBean("customerRepository", CustomerRepository.class);
         for (Object[] objArr: customerRepository.findById(1L)){
             System.out.print(objArr[0]);
             System.out.print(objArr[1]);
@@ -66,7 +70,7 @@ public class Main {
             System.out.println();
         }
 
-        ItemRepository itemRepository = new ItemRepository(emFactory);
+        ItemRepository itemRepository = context.getBean("itemRepository", ItemRepository.class);
         for (Object objArr : itemRepository.findById(2L)){
             System.out.print(objArr);
             System.out.println();

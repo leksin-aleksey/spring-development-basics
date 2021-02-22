@@ -1,5 +1,6 @@
 package ru.geekbrains.persist.customer;
 
+import org.springframework.stereotype.Repository;
 import ru.geekbrains.persist.customer.Customer;
 
 import javax.persistence.EntityManager;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+@Repository
 public class CustomerRepository {
 
     private final EntityManagerFactory emFactory;

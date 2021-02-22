@@ -1,5 +1,6 @@
 package ru.geekbrains.persist.item;
 
+import org.springframework.stereotype.Repository;
 import ru.geekbrains.persist.item.Item;
 
 import javax.persistence.EntityManager;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+@Repository
 public class ItemRepository {
 
     private final EntityManagerFactory emFactory;
