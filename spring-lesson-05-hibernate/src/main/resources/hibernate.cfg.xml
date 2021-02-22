@@ -17,8 +17,8 @@
         <property name="hibernate.format_sql">true</property>
 
 <!--        <mapping class="ru.geekbrains.persist.User"/>-->
-        <mapping class="ru.geekbrains.persist.Customer"/>
-        <mapping class="ru.geekbrains.persist.Item"/>
-        <mapping class="ru.geekbrains.persist.Purchase"/>
+        <mapping class="ru.geekbrains.persist.customer.Customer"/>
+        <mapping class="ru.geekbrains.persist.item.Item"/>
+        <mapping class="ru.geekbrains.persist.purchase.Purchase"/>
     </session-factory>
 </hibernate-configuration>

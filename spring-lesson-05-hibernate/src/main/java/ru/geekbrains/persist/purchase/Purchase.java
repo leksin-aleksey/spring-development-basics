@@ -1,4 +1,7 @@
-package ru.geekbrains.persist;
+package ru.geekbrains.persist.purchase;
+
+import ru.geekbrains.persist.customer.Customer;
+import ru.geekbrains.persist.item.Item;
 
 import javax.persistence.*;
 
@@ -60,5 +63,15 @@ public class Purchase {
 
     public void setPurchase(int purchase) {
         this.purchase = purchase;
+    }
+
+    @Override
+    public String toString() {
+        return "Purchase{" +
+                "id=" + id +
+                ", customer=" + customer +
+                ", item=" + item +
+                ", purchase=" + purchase +
+                '}';
     }
 }
