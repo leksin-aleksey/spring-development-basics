@@ -72,8 +72,13 @@
         <div class="col-12">
             <nav aria-label="...">
                 <ul class="pagination">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+<!--                    <li  th:if="${param.page == 1}" class="page-item disabled">-->
+                    <li class="page-item"
+                        th:classappend="${#strings.equals(param.page, '1')} ? 'disabled'">
+                        <a class="page-link"
+                           th:href="@{/item(page=${#numbers.formatInteger(param.page, 1)} - 1, size=${items.size},
+                           nameFilter=${param.nameFilter}, minPrice=${param.minPrice}, maxPrice=${param.maxPrice}, sortField=${param.sortField})}"
+                           tabindex="-1">Previous</a>
                     </li>
 
                     <li th:each="num: ${#numbers.sequence(1, items.totalPages)}"
@@ -85,8 +90,13 @@
                            class="page-link">1 <span th:if="${num == items.number + 1}" class="sr-only">(current)</span></a>
                     </li>
 
-                    <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
+                    <li class="page-item"
+                        th:classappend="${#strings.equals(param.page, items.totalPages)} ? 'disabled'">
+                        <a class="page-link"
+                           th:href="@{/item(page=${#numbers.formatInteger(param.page, 1)} + 1, size=${items.size},
+                           nameFilter=${param.nameFilter}, minPrice=${param.minPrice}, maxPrice=${param.maxPrice}, sortField=${param.sortField})}">
+                            Next
+                        </a>
                     </li>
                 </ul>
             </nav>
