@@ -1,0 +1,9 @@
+##У меня нет Ultimate версии IDEA, поэтому проверил с помощью cURL:
+
+curl -X GET http://localhost:8080/spring-mvc-app/api/v1/item/all
+
+curl -X POST -H "Content-Type: application/json" -d "{\"name\":\"items5NEW\",\"price\":\"500\"}" http://localhost:8080/spring-mvc-app/api/v1/item
+
+curl -X PUT -H "Content-Type: application/json" -d "{\"id\":\"1\",\"name\":\"items1NEW\",\"price\":\"101\"}" http://localhost:8080/spring-mvc-app/api/v1/item
+
+curl -X DELETE http://localhost:8080/spring-mvc-app/api/v1/item/6
