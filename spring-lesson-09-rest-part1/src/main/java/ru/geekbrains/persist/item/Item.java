@@ -33,6 +33,7 @@ public class Item {
     }
 
     public Item(ItemDTO itemDTO){
+        id = itemDTO.getId();
         name = itemDTO.getName();
         price = itemDTO.getPrice();
     }

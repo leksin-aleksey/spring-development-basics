@@ -64,8 +64,8 @@ public class ItemServiceImpl implements ItemService{
     public void save(ItemDTO itemDTO) {
         Item item = new Item(itemDTO);
         itemRepository.save(item);
-        if (item.getId() == null){
-            item.setId(itemDTO.getId());
+        if (itemDTO.getId() == null){
+            itemDTO.setId(item.getId());
         }
     }
 
