@@ -8,8 +8,8 @@
 
 #curl -X DELETE http://localhost:8080/spring-mvc-app/api/v1/item/6
 
-curl -X GET http://localhost:8080/spring-mvc-app/api/v1/cart/2
+curl -X GET http://80.78.245.156:8080/spring-mvc-app/api/v1/cart/2
 
-curl -X POST -H "Content-Type: application/json" -d "{\"customerId\":\"2\",\"itemIds\":[\"1\",\"2\",\"3\",\"4\",\"5\"]}" http://localhost:8080/spring-mvc-app/api/v1/cart
+curl -X POST -H "Content-Type: application/json" -d "{\"customerId\":\"2\",\"itemIds\":[\"1\",\"2\",\"3\",\"4\",\"5\"]}" http://80.78.245.156:8080/spring-mvc-app/api/v1/cart
 
-curl -X DELETE http://localhost:8080/spring-mvc-app/api/v1/cart/1
+curl -X DELETE http://80.78.245.156:8080/spring-mvc-app/api/v1/cart/1
