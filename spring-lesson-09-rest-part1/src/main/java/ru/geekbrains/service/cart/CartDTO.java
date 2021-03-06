@@ -3,7 +3,6 @@ package ru.geekbrains.service.cart;
 import ru.geekbrains.persist.cart.Cart;
 import ru.geekbrains.persist.customer.Customer;
 import ru.geekbrains.persist.item.Item;
-import ru.geekbrains.service.customer.CustomerDTO;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.List;

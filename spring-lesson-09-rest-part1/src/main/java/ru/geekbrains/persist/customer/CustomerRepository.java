@@ -17,4 +17,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>, JpaSp
             "where c.name like :name or :name is null")
     List<Customer> findWithFilter(@Param("name") String nameFilter);
 
+//    @Query("select c from Customer c " +
+//            "where c.id = :id")
+//    Customer findById(@Param("id") long id);
 }

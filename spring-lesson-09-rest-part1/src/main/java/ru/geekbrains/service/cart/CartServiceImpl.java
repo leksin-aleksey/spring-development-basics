@@ -1,8 +1,10 @@
 package ru.geekbrains.service.cart;
 
 import org.springframework.stereotype.Service;
+import ru.geekbrains.controller.item.NotFoundException;
 import ru.geekbrains.persist.cart.Cart;
 import ru.geekbrains.persist.cart.CartRepository;
+import ru.geekbrains.persist.customer.Customer;
 import ru.geekbrains.persist.customer.CustomerRepository;
 import ru.geekbrains.persist.item.Item;
 import ru.geekbrains.persist.item.ItemRepository;
@@ -20,10 +22,6 @@ public class CartServiceImpl implements CartService{
 
     private ItemRepository itemRepository;
 
-//    public CartServiceImpl(CartRepository cartRepository) {
-//        this.cartRepository = cartRepository;
-//    }
-
     public CartServiceImpl(CartRepository cartRepository, CustomerRepository customerRepository, ItemRepository itemRepository) {
         this.cartRepository = cartRepository;
         this.customerRepository = customerRepository;
@@ -33,10 +31,12 @@ public class CartServiceImpl implements CartService{
     @Override
     public void add(CartDTO cartDTO) {
         Cart cart = new Cart();
-        cart.setCustomer(customerRepository.findById(cartDTO.getCustomerId()).get());
+        long customerId = cartDTO.getCustomerId();
+        Customer customer = customerRepository.findById(customerId).orElseThrow(NotFoundException::new);
+        cart.setCustomer(customer);
         List<Item> items = new ArrayList<>();
         for (long id : cartDTO.getItemIds()) {
-            items.add(itemRepository.findById(id).get());
+            items.add(itemRepository.findById(id).orElseThrow(NotFoundException::new));
         }
         cart.setItems(items);
         cartRepository.add(cart);

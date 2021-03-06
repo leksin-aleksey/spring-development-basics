@@ -1,23 +1,13 @@
 package ru.geekbrains.persist.cart;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import ru.geekbrains.persist.customer.Customer;
-import ru.geekbrains.persist.customer.CustomerRepository;
 import ru.geekbrains.persist.item.Item;
-import ru.geekbrains.persist.item.ItemRepository;
 import ru.geekbrains.service.cart.CartDTO;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Cart {
     private static long counter = 1;
-
-//    @Autowired
-    private CustomerRepository customerRepository;
-
-//    @Autowired
-    private ItemRepository itemRepository;
 
     private Long id;
 
@@ -26,19 +16,16 @@ public class Cart {
     private List<Item> items;
 
     public Cart() {
+        id = counter++;
     }
 
     public Cart(Customer customer) {
-        id = counter++;
+        this();
         this.customer = customer;
     }
 
     public Cart(CartDTO cartDTO){
         id = cartDTO.getId();
-//        customer = customerRepository.findById(cartDTO.getCustomerId()).get();
-//        for (long id : cartDTO.getItemIds()) {
-//            items.add(itemRepository.getOne(id));
-//        }
     }
 
     public Long getId() {
