@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -56,11 +58,16 @@ public class UserController {
                 sortField.orElse(null)
         );
         model.addAttribute("users", users);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasSuperAdminRole = authentication.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("ROLE_SUPER_ADMIN"));
+        model.addAttribute("hasAccess", hasSuperAdminRole);
         return "user";
     }
 
 //    @Secured({"ADMIN", "SUPER_ADMIN"})
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @GetMapping("/{id}")
     public String editPage(@PathVariable("id") Long id, Model model) {
         logger.info("Edit page for id {} requested", id);
@@ -71,7 +78,7 @@ public class UserController {
         return "user_form";
     }
 
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @PostMapping("/update")
     public String update(@Valid @ModelAttribute("user") UserRepr user, BindingResult result, Model model) {
         logger.info("Update endpoint requested");
@@ -90,6 +97,7 @@ public class UserController {
         return "redirect:/user";
     }
 
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @GetMapping("/new")
     public String create(Model model) {
         logger.info("Create new user request");
@@ -99,7 +107,7 @@ public class UserController {
         return "user_form";
     }
 
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @DeleteMapping("/{id}")
     public String remove(@PathVariable("id") Long id) {
         logger.info("User delete request");
@@ -108,7 +116,7 @@ public class UserController {
         return "redirect:/user";
     }
 
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @ExceptionHandler
     public ModelAndView notFoundExceptionHandler(NotFoundException ex) {
         ModelAndView mav = new ModelAndView("not_found");

@@ -20,9 +20,14 @@ public class SecurityConfiguration {
                               UserAuthService userDetailService,
                               PasswordEncoder passwordEncoder) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("mem_user")
+                .withUser("mem_admin")
                 .password(passwordEncoder.encode("password"))
                 .roles("ADMIN");
+        auth.inMemoryAuthentication()
+                .withUser("mem_super_admin")
+                .password(passwordEncoder.encode("password"))
+                .roles("SUPER_ADMIN");
+
 
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailService);
@@ -42,7 +47,7 @@ public class SecurityConfiguration {
                     .authorizeRequests()
                     .antMatchers("/**/*.css", "/**/*.js").permitAll()
                     .antMatchers("/product/**").permitAll()
-                    .antMatchers("/user/new/**").anonymous()
+//                    .antMatchers("/user/new/**").authenticated()
                     .antMatchers("/user/**").authenticated()
                     .antMatchers("/login/*").permitAll()
                     .and()

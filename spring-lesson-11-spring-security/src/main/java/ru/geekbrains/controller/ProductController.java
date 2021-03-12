@@ -5,6 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +18,7 @@ import ru.geekbrains.service.ProductService;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Optional;
 
 @Controller
@@ -39,10 +43,15 @@ public class ProductController {
         model.addAttribute("products", productService.findWithFilter(nameFilter, minPrice, maxPrice,
                 page, size,
                 sortField, sortOrder));
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasSuperAdminRole = authentication.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
+        model.addAttribute("hasAccess", hasSuperAdminRole);
         return "product";
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public String editProduct(@PathVariable(value = "id") Long id, Model model) {
         logger.info("Edit product with id {}", id);
@@ -51,14 +60,14 @@ public class ProductController {
         return "product_form";
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/new")
     public String newProduct(Model model) {
         model.addAttribute(new Product());
         return "product_form";
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/update")
     public String updateProduct(@Valid Product product, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -68,7 +77,7 @@ public class ProductController {
         return "redirect:/product";
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public String deleteProduct(@PathVariable(value = "id") Long id) {
         logger.info("Delete product with id {}", id);

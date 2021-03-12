@@ -15,12 +15,9 @@
         <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
-<!--    <a class="px-3" href="#">Sign up</a>-->
-<!--    <button type="submit" class="btn btn-primary">Sign up</button>-->
+    <a class="px-3" th:href="@{/user/new}">Sign up</a>
 </form>
-<form th:method="get" th:action="@{/user/new}">
-        <button type="submit" class="btn btn-primary">Sign up</button>
-</form>
+
 
 <th:block th:replace="fragments/footer.html :: scripts"/>
 
