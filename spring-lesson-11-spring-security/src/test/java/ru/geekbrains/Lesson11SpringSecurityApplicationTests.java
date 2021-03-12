@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
-class Lesson04SpringBootApplicationTests {
+class Lesson11SpringSecurityApplicationTests {
 
     @PersistenceContext
     private EntityManager em;

@@ -9,7 +9,7 @@
 
 <div class="container">
     <div class="row py-2">
-        <div class="col-12">
+        <div th:if="${hasAccess}" class="col-12">
             <a class="btn btn-primary" th:href="@{/product/new}">Add Product</a>
         </div>
 
@@ -40,7 +40,7 @@
                     <th scope="col" th:include="fragments/sort_header :: sort_header ('Name', 'name')">Name</th>
                     <th scope="col" th:include="fragments/sort_header :: sort_header ('Description', 'description')">Description</th>
                     <th scope="col" th:include="fragments/sort_header :: sort_header ('Price', 'price')">Price</th>
-                    <th scope="col">Actions</th>
+                    <th th:if="${hasAccess}" scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -51,7 +51,7 @@
                         900, RAM 8GB DDR3
                     </td>
                     <td th:text="${product.price}">$1000</td>
-                    <td>
+                    <td th:if="${hasAccess}">
                         <a class="btn btn-success" th:href="@{/product/{id}(id = ${product.id})}">
                             <i class="fas fa-edit"></i>
                         </a>

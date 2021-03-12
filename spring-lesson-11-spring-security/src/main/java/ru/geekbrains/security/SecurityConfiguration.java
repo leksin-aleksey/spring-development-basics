@@ -5,12 +5,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
 
     @Autowired
@@ -18,9 +20,14 @@ public class SecurityConfiguration {
                               UserAuthService userDetailService,
                               PasswordEncoder passwordEncoder) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("mem_user")
+                .withUser("mem_admin")
                 .password(passwordEncoder.encode("password"))
                 .roles("ADMIN");
+        auth.inMemoryAuthentication()
+                .withUser("mem_super_admin")
+                .password(passwordEncoder.encode("password"))
+                .roles("SUPER_ADMIN");
+
 
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailService);
@@ -40,10 +47,17 @@ public class SecurityConfiguration {
                     .authorizeRequests()
                     .antMatchers("/**/*.css", "/**/*.js").permitAll()
                     .antMatchers("/product/**").permitAll()
+//                    .antMatchers("/user/new/**").authenticated()
                     .antMatchers("/user/**").authenticated()
+                    .antMatchers("/login/*").permitAll()
                     .and()
                     .formLogin()
-                    .defaultSuccessUrl("/product");
+                    .loginPage("/login")
+//                    .loginProcessingUrl("/login")
+                    .defaultSuccessUrl("/product")
+                    .and()
+                    .exceptionHandling()
+                    .accessDeniedPage("/access_denied");;
         }
     }
 }
